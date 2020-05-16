@@ -5,22 +5,21 @@ import pandas as pd
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__)
 
 df = pd.read_csv('us.csv', header=0, escapechar='\\')
 
 
 app.layout = html.Div(
-  style={'height': '100%'},
+  style={'height': '100vh'},
   children=[
     dcc.Graph(
-        id='life-exp-vs-gdp',
+        id='us-coronavirus-cases',
         figure={
             'data': [
                 dict(
                     x=df[df['date'] == i]['cases'] + df[df['date'] == i]['deaths'],
                     y=df[df['date'] == i]['date'],
-                    text=f"Infection cases: {df[df['date'] == i]['cases']} Deaths: {df[df['date'] == i]['deaths']}",
                     mode='markers',
                     opacity=0.7,
                     marker={
@@ -31,10 +30,10 @@ app.layout = html.Div(
                 ) for i in df.date.unique()
             ],
             'layout': dict(
-                xaxis={'type': 'log', 'title': 'Dates'},
-                yaxis={'title': 'Number of cases'},
+                xaxis={'type': 'log', 'title': 'Date'},
+                yaxis={'title': 'Cases'},
                 margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
-                legend={'x': 0, 'y': 1},
+                legend={'x': 1, 'y': 0},
                 hovermode='closest'
             )
         }
