@@ -5,10 +5,9 @@ import pandas as pd
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 df = pd.read_csv('us.csv', header=0, escapechar='\\')
-
 
 app.layout = html.Div(
   style={'height': '100vh'},
@@ -18,23 +17,18 @@ app.layout = html.Div(
         figure={
             'data': [
                 dict(
-                    x=df[df['date'] == i]['cases'] + df[df['date'] == i]['deaths'],
-                    y=df[df['date'] == i]['date'],
-                    mode='markers',
-                    opacity=0.7,
-                    marker={
-                        'size': 15,
-                        'line': {'width': 0.5, 'color': 'white'}
-                    },
-                    name=i
-                ) for i in df.date.unique()
+                    type='bar',
+                    x=df.index.values.tolist(),
+                    y=df['cases'],
+                    name="Infection cases",
+                )
             ],
             'layout': dict(
-                xaxis={'type': 'log', 'title': 'Date'},
-                yaxis={'title': 'Cases'},
-                margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
-                legend={'x': 1, 'y': 0},
-                hovermode='closest'
+                # xaxis={'type': 'log', 'title': 'Date'},
+                # yaxis={'title': 'Cases'},
+                # margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+                # legend={'x': 1, 'y': 0},
+                # hovermode='closest'
             )
         }
     )
